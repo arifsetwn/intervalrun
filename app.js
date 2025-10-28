@@ -119,16 +119,13 @@ let lastBeepSecond = -1; // Track detik terakhir beep untuk mencegah duplikasi
 function loadAudio() {
     try {
         // Coba load audio files
-        beepCountdown = new Audio('assets/beep-countdown.mp3');
-        beepTransition = new Audio('assets/beep-transition.mp3');
+        beepCountdown = new Audio('assets/beep-countdown.wav');
+        beepTransition = new Audio('assets/beep-transition.wav');
         
         // Set volume
         beepCountdown.volume = 0.7;
         beepTransition.volume = 0.8;
-        
-        console.log('Audio files loaded successfully');
     } catch (error) {
-        console.warn('Audio files not found, using Web Audio API fallback');
         // Fallback: generate beep menggunakan Web Audio API jika file tidak ada
         beepCountdown = null;
         beepTransition = null;
@@ -138,7 +135,7 @@ function loadAudio() {
 function playBeep() {
     if (beepCountdown) {
         beepCountdown.currentTime = 0;
-        beepCountdown.play().catch(e => console.log('Beep play error:', e));
+        beepCountdown.play().catch(e => {});
     } else {
         // Fallback: Web Audio API beep
         playWebAudioBeep(800, 0.1);
@@ -148,7 +145,7 @@ function playBeep() {
 function playTransition() {
     if (beepTransition) {
         beepTransition.currentTime = 0;
-        beepTransition.play().catch(e => console.log('Transition play error:', e));
+        beepTransition.play().catch(e => {});
     } else {
         // Fallback: Web Audio API double beep
         playWebAudioBeep(600, 0.15);
@@ -175,7 +172,7 @@ function playWebAudioBeep(frequency, duration) {
         oscillator.start(audioContext.currentTime);
         oscillator.stop(audioContext.currentTime + duration);
     } catch (e) {
-        console.log('Web Audio API not supported');
+        // Web Audio API not supported
     }
 }
 
@@ -288,7 +285,6 @@ function tick() {
 
 function loadInterval(index) {
     if (index >= currentWorkout.length || index < 0) {
-        console.error('Invalid interval index:', index);
         return;
     }
     
@@ -303,8 +299,6 @@ function loadInterval(index) {
     
     // Apply warna background
     applyIntervalColor(interval);
-    
-    console.log(`Loaded interval ${index + 1}/${currentWorkout.length}: ${interval.name}`);
 }
 
 // ========================================
@@ -328,8 +322,6 @@ function startTimer() {
         startPauseBtn.classList.remove('btn-start');
         startPauseBtn.classList.add('btn-pause');
     }
-    
-    console.log('Timer started');
 }
 
 function pauseTimer() {
@@ -347,8 +339,6 @@ function pauseTimer() {
         startPauseBtn.classList.remove('btn-pause');
         startPauseBtn.classList.add('btn-start');
     }
-    
-    console.log('Timer paused');
 }
 
 function resetTimer() {
@@ -370,8 +360,6 @@ function resetTimer() {
         startPauseBtn.classList.remove('btn-pause');
         startPauseBtn.classList.add('btn-start');
     }
-    
-    console.log('Timer reset');
 }
 
 function workoutComplete() {
@@ -400,8 +388,6 @@ function workoutComplete() {
         startPauseBtn.textContent = '✓ Selesai';
         startPauseBtn.disabled = true;
     }
-    
-    console.log('Workout completed!');
 }
 
 // ========================================
@@ -409,19 +395,18 @@ function workoutComplete() {
 // ========================================
 
 function showView(viewId) {
-    // Sembunyikan semua view
+    // Sembunyikan semua view dengan remove class
     const allViews = [selectionView, builderView, timerView];
     allViews.forEach(view => {
         if (view) {
-            view.style.display = 'none';
+            view.classList.remove('active-view');
         }
     });
     
-    // Tampilkan view yang dipilih
+    // Tampilkan view yang dipilih dengan add class
     const targetView = document.getElementById(viewId);
     if (targetView) {
-        targetView.style.display = 'flex';
-        console.log('Showing view:', viewId);
+        targetView.classList.add('active-view');
     }
 }
 
@@ -453,13 +438,9 @@ function populatePresetList() {
         
         presetListEl.appendChild(presetCard);
     });
-    
-    console.log('Preset list populated with', presetWorkouts.length, 'items');
 }
 
 function selectPresetWorkout(preset) {
-    console.log('Selected preset:', preset.name);
-    
     // Set current workout ke preset yang dipilih
     currentWorkout = [...preset.intervals];
     currentIntervalIndex = 0;
@@ -475,6 +456,7 @@ function selectPresetWorkout(preset) {
         startPauseBtn.classList.add('btn-start');
     }
     
+    console.log('   Calling showView(timer-view)...');
     // Pindah ke timer view
     showView('timer-view');
 }
@@ -542,8 +524,6 @@ function updateCustomWorkoutList() {
         
         customWorkoutListEl.appendChild(item);
     });
-    
-    console.log('Custom workout list updated:', customWorkout.length, 'intervals');
 }
 
 function addIntervalToCustomWorkout(name, minutes, seconds) {
@@ -745,9 +725,4 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Tampilkan selection view sebagai default
     showView('selection-view');
-    
-    console.log('✅ Core Timer Engine initialized');
-    console.log('✅ View Management initialized');
-    console.log('✅ Preset workouts available:', presetWorkouts.length);
-    console.log('🚀 IntervalRun ready to use!');
 });

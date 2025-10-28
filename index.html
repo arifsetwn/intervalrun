@@ -4,7 +4,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IntervalRun - Treadmill Interval Timer</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style-new.css">
+    <style>
+        /* View Control - Semua view hidden by default */
+        .view {
+            display: none !important;
+        }
+        
+        /* Selection View - Show when active */
+        #selection-view.active-view {
+            display: flex !important;
+            flex-direction: column !important;
+        }
+        
+        /* Timer View - Show when active */
+        #timer-view.active-view {
+            display: flex !important;
+            flex-direction: column !important;
+        }
+        
+        /* Builder View - Show when active dengan layout vertikal */
+        #builder-view.active-view {
+            display: flex !important;
+            flex-direction: column !important;
+            max-width: 600px !important;
+        }
+        
+        /* Builder View - Paksa layout vertikal untuk semua children */
+        #builder-view .builder-form,
+        #builder-view .custom-workout-list,
+        #builder-view .builder-controls {
+            width: 100% !important;
+        }
+        
+        #builder-view .builder-controls {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 15px !important;
+            align-items: center !important;
+        }
+        
+        #builder-view .builder-controls .btn {
+            width: 100% !important;
+            max-width: 400px !important;
+            flex: none !important;
+        }
+        
+        /* Override di semua breakpoint untuk builder controls */
+        @media (min-width: 768px) {
+            #builder-view .builder-controls {
+                flex-direction: column !important;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            #builder-view .builder-controls {
+                flex-direction: column !important;
+            }
+        }
+    </style>
 </head>
 <body>
     <div id="app">

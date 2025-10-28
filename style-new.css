@@ -256,7 +256,7 @@ body {
 }
 
 .custom-workout-list {
-    margin-bottom: 20px;
+    margin-bottom: 0;
 }
 
 .workout-item {
@@ -404,12 +404,13 @@ body {
     
     /* Builder View Optimizations */
     #builder-view {
-        max-width: 700px;
+        max-width: 900px;
         padding: 30px;
     }
     
     .builder-form {
         padding: 30px;
+        margin-bottom: 30px;
     }
     
     .form-group label {
@@ -445,12 +446,12 @@ body {
     }
     
     .builder-controls {
-        flex-direction: row;
         gap: 15px;
+        margin-top: 30px;
     }
-    
-    .builder-controls .btn {
-        flex: 1;
+
+    .custom-workout-list {
+        margin-bottom: 30px;
     }
 }
 
@@ -470,12 +471,13 @@ body {
     
     /* Builder View Desktop Optimizations */
     #builder-view {
-        max-width: 900px;
+        max-width: 1000px;
         padding: 40px;
     }
     
     .builder-form {
         padding: 40px;
+        margin-bottom: 40px;
     }
     
     .view-title {
@@ -494,7 +496,7 @@ body {
     }
     
     .custom-workout-list {
-        margin-bottom: 30px;
+        margin-bottom: 40px;
     }
     
     .workout-item {
@@ -530,6 +532,7 @@ body {
     
     .builder-controls {
         gap: 20px;
+        margin-top: 40px;
     }
     
     .builder-controls .btn {

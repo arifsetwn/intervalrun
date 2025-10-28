@@ -10,8 +10,8 @@ Dokumen ini adalah breakdown tugas untuk membangun MVP aplikasi "IntervalRun" v1
 - [x] Buat *commit* awal.
 - [x] Tautkan file `style.css` dan `app.js` ke `index.html`.
 - [x] Cari dan siapkan aset audio (isyarat):
-    - [x] `beep-countdown.mp3` (untuk 3, 2, 1...)
-    - [x] `beep-transition.mp3` (untuk pergantian interval)
+    - [x] `beep-countdown.wav` (untuk 3, 2, 1...)
+    - [x] `beep-transition.wav` (untuk pergantian interval)
 - [x] Simpan aset audio di folder `/assets`.
 
 ## Fase 1: Struktur HTML (Skeleton)
@@ -145,7 +145,7 @@ Dokumen ini adalah breakdown tugas untuk membangun MVP aplikasi "IntervalRun" v1
 
 ## Fase 6: Deployment (v1.0 Launch)
 
-- [ ] Bersihkan `console.log` dan kode *debug*.
+- [x] Bersihkan `console.log` dan kode *debug*.
 - [ ] Buat *build* produksi (jika menggunakan *bundler*, jika tidak lewati).
 - [ ] Deploy ke *static host* (GitHub Pages, Netlify, Vercel) (NF-2).
 - [ ] Tes aplikasi di URL publik.
