@@ -362,6 +362,36 @@ function resetTimer() {
     }
 }
 
+function workoutComplete() {
+    // Stop timer
+    pauseTimer();
+    
+    // Update UI untuk menampilkan pesan selesai
+    if (currentIntervalNameEl) {
+        currentIntervalNameEl.textContent = '🎉 SELESAI! 🎉';
+    }
+    
+    if (currentTimerEl) {
+        currentTimerEl.textContent = '00:00';
+    }
+    
+    if (nextIntervalInfoEl) {
+        nextIntervalInfoEl.textContent = 'Latihan telah selesai! Bagus sekali! 💪';
+    }
+    
+    // Reset button state
+    if (startPauseBtn) {
+        startPauseBtn.textContent = '▶️ Mulai';
+        startPauseBtn.classList.remove('btn-pause');
+        startPauseBtn.classList.add('btn-start');
+    }
+    
+    // Optional: Tampilkan alert atau notifikasi
+    setTimeout(() => {
+        alert('🎉 Latihan Selesai!\n\nBagus sekali! Anda telah menyelesaikan latihan.');
+    }, 500);
+}
+
 // ========================================
 // 9. VIEW MANAGEMENT
 // ========================================
@@ -454,6 +484,88 @@ function setupSelectionView() {
     }
 }
 
+// ========================================
+// 11. BUILDER VIEW - CUSTOM WORKOUT LOGIC
+// ========================================
+
+function addIntervalToCustomWorkout(name, minutes, seconds) {
+    const totalSeconds = parseInt(minutes) * 60 + parseInt(seconds);
+    
+    // Validasi
+    if (!name || name.trim() === '') {
+        alert('Nama interval tidak boleh kosong!');
+        return false;
+    }
+    
+    if (totalSeconds <= 0) {
+        alert('Durasi harus lebih dari 0 detik!');
+        return false;
+    }
+    
+    // Tambahkan ke customWorkout array
+    customWorkout.push({
+        name: name,
+        duration: totalSeconds,
+        type: 'custom' // Default type untuk custom intervals
+    });
+    
+    return true;
+}
+
+function updateCustomWorkoutList() {
+    if (!customWorkoutListEl) return;
+    
+    // Bersihkan list
+    customWorkoutListEl.innerHTML = '';
+    
+    if (customWorkout.length === 0) {
+        customWorkoutListEl.innerHTML = '<p class="empty-message">Belum ada interval. Tambahkan interval pertama Anda!</p>';
+        
+        // Disable tombol start jika tidak ada interval
+        if (startCustomBtn) {
+            startCustomBtn.disabled = true;
+        }
+        return;
+    }
+    
+    // Enable tombol start karena ada interval
+    if (startCustomBtn) {
+        startCustomBtn.disabled = false;
+    }
+    
+    // Tampilkan setiap interval
+    customWorkout.forEach((interval, index) => {
+        const intervalItem = document.createElement('div');
+        intervalItem.className = 'custom-interval-item';
+        
+        intervalItem.innerHTML = `
+            <span class="interval-number">${index + 1}.</span>
+            <span class="interval-name">${interval.name}</span>
+            <span class="interval-duration">${formatTime(interval.duration)}</span>
+            <button class="btn-remove" data-index="${index}">🗑️</button>
+        `;
+        
+        // Event listener untuk tombol hapus
+        const removeBtn = intervalItem.querySelector('.btn-remove');
+        removeBtn.addEventListener('click', function() {
+            removeIntervalFromCustomWorkout(index);
+        });
+        
+        customWorkoutListEl.appendChild(intervalItem);
+    });
+    
+    // Tambahkan info total durasi
+    const totalDuration = customWorkout.reduce((sum, interval) => sum + interval.duration, 0);
+    const totalInfo = document.createElement('div');
+    totalInfo.className = 'total-duration';
+    totalInfo.innerHTML = `<strong>Total Durasi:</strong> ${formatTime(totalDuration)}`;
+    customWorkoutListEl.appendChild(totalInfo);
+}
+
+function removeIntervalFromCustomWorkout(index) {
+    customWorkout.splice(index, 1);
+    updateCustomWorkoutList();
+}
 
 function setupBuilderView() {
     // Event listener untuk form submission
@@ -480,6 +592,29 @@ function setupBuilderView() {
         });
     }
     
+    // Event listener untuk tombol "Mulai Latihan"
+    if (startCustomBtn) {
+        startCustomBtn.addEventListener('click', function() {
+            // Validasi: pastikan ada interval
+            if (customWorkout.length === 0) {
+                alert('Tambahkan minimal satu interval terlebih dahulu!');
+                return;
+            }
+            
+            // Set current workout dari custom workout
+            currentWorkout = [...customWorkout];
+            currentIntervalIndex = 0;
+            
+            // Load interval pertama
+            loadInterval(0);
+            
+            // Reset button state
+            if (startPauseBtn) {
+                startPauseBtn.textContent = '▶️ Mulai';
+                startPauseBtn.disabled = false;
+                startPauseBtn.classList.remove('btn-pause');
+                startPauseBtn.classList.add('btn-start');
+            }
             
             // Pindah ke timer view
             showView('timer-view');

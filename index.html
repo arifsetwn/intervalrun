@@ -82,6 +82,54 @@
             </button>
         </div>
 
+        <!-- Tampilan 2: Builder (Buat Latihan Baru) -->
+        <div id="builder-view" class="view">
+            <h1 class="app-title">IntervalRun</h1>
+            <h2 class="view-title">Buat Latihan Baru</h2>
+            
+            <!-- Form Input Interval -->
+            <form id="builder-form" class="builder-form">
+                <div class="form-group">
+                    <label for="interval-name">Nama Interval</label>
+                    <input type="text" id="interval-name" placeholder="Contoh: Lari Cepat" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="interval-minutes">Menit</label>
+                        <input type="number" id="interval-minutes" min="0" max="59" value="0">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="interval-seconds">Detik</label>
+                        <input type="number" id="interval-seconds" min="0" max="59" value="30">
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">
+                    ➕ Tambah Interval
+                </button>
+            </form>
+            
+            <!-- Daftar Interval yang Sudah Ditambahkan -->
+            <div class="custom-workout-section">
+                <h3>Interval Latihan</h3>
+                <div id="custom-workout-list" class="custom-workout-list">
+                    <!-- Akan diisi oleh JavaScript -->
+                </div>
+            </div>
+            
+            <!-- Tombol Kontrol -->
+            <div class="builder-controls">
+                <button id="start-custom-btn" class="btn btn-success" disabled>
+                    ▶️ Mulai Latihan
+                </button>
+                <button id="back-to-selection-btn" class="btn btn-secondary">
+                    ← Kembali
+                </button>
+            </div>
+        </div>
+
         <!-- Tampilan 3: Timer (Layar Eksekusi) -->
         <div id="timer-view" class="view" style="display: none;">
             <!-- Nama Interval Saat Ini -->
