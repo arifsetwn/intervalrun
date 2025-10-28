@@ -4,15 +4,15 @@ Dokumen ini adalah breakdown tugas untuk membangun MVP aplikasi "IntervalRun" v1
 
 ## Fase 0: Penyiapan Proyek (Setup)
 
-- [ ] Buat struktur *repository* proyek.
-- [ ] Buat file dasar: `index.html`, `style.css`, `app.js`.
-- [ ] Inisialisasi Git (`git init`).
-- [ ] Buat *commit* awal.
-- [ ] Tautkan file `style.css` dan `app.js` ke `index.html`.
-- [ ] Cari dan siapkan aset audio (isyarat):
-    - [ ] `beep-countdown.mp3` (untuk 3, 2, 1...)
-    - [ ] `beep-transition.mp3` (untuk pergantian interval)
-- [ ] Simpan aset audio di folder `/assets`.
+- [x] Buat struktur *repository* proyek.
+- [x] Buat file dasar: `index.html`, `style.css`, `app.js`.
+- [x] Inisialisasi Git (`git init`).
+- [x] Buat *commit* awal.
+- [x] Tautkan file `style.css` dan `app.js` ke `index.html`.
+- [x] Cari dan siapkan aset audio (isyarat):
+    - [x] `beep-countdown.mp3` (untuk 3, 2, 1...)
+    - [x] `beep-transition.mp3` (untuk pergantian interval)
+- [x] Simpan aset audio di folder `/assets`.
 
 ## Fase 1: Struktur HTML (Skeleton)
 
