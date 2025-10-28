@@ -209,6 +209,7 @@ body {
     max-width: 500px;
     margin: 0 auto;
     min-height: 100vh;
+    width: 100%;
 }
 
 .builder-form {
@@ -401,8 +402,55 @@ body {
         min-width: 180px;
     }
     
+    /* Builder View Optimizations */
     #builder-view {
-        max-width: 600px;
+        max-width: 700px;
+        padding: 30px;
+    }
+    
+    .builder-form {
+        padding: 30px;
+    }
+    
+    .form-group label {
+        font-size: 1.1rem;
+    }
+    
+    .form-group input {
+        padding: 14px;
+        font-size: 1.1rem;
+    }
+    
+    .form-row {
+        gap: 20px;
+    }
+    
+    .workout-item {
+        padding: 20px;
+        margin-bottom: 12px;
+    }
+    
+    .workout-item-name {
+        font-size: 1.2rem;
+    }
+    
+    .workout-item-duration {
+        font-size: 1rem;
+    }
+    
+    .btn-delete {
+        padding: 10px 20px;
+        font-size: 1rem;
+        min-width: 90px;
+    }
+    
+    .builder-controls {
+        flex-direction: row;
+        gap: 15px;
+    }
+    
+    .builder-controls .btn {
+        flex: 1;
     }
 }
 
@@ -418,6 +466,75 @@ body {
     
     .preset-list {
         max-width: 600px;
+    }
+    
+    /* Builder View Desktop Optimizations */
+    #builder-view {
+        max-width: 900px;
+        padding: 40px;
+    }
+    
+    .builder-form {
+        padding: 40px;
+    }
+    
+    .view-title {
+        font-size: 2.5rem;
+        margin-bottom: 40px;
+    }
+    
+    .form-group label {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+    }
+    
+    .form-group input {
+        padding: 16px;
+        font-size: 1.2rem;
+    }
+    
+    .custom-workout-list {
+        margin-bottom: 30px;
+    }
+    
+    .workout-item {
+        padding: 24px;
+        margin-bottom: 15px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .workout-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .workout-item-name {
+        font-size: 1.3rem;
+    }
+    
+    .workout-item-duration {
+        font-size: 1.1rem;
+        margin-top: 5px;
+    }
+    
+    .btn-delete {
+        padding: 12px 24px;
+        font-size: 1.1rem;
+        min-width: 100px;
+        transition: all 0.2s ease;
+    }
+    
+    .btn-delete:hover {
+        transform: scale(1.05);
+    }
+    
+    .builder-controls {
+        gap: 20px;
+    }
+    
+    .builder-controls .btn {
+        font-size: 1.2rem;
+        padding: 18px 40px;
     }
 }
 
