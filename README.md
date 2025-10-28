@@ -337,7 +337,7 @@ Jika menemukan bug atau punya pertanyaan:
 
 - 🐛 **Bug Report**: [Open an issue](https://github.com/arifsetwn/intervalrun/issues)
 - 💡 **Feature Request**: [Open an issue](https://github.com/arifsetwn/intervalrun/issues)
-- 📧 **Email**: arif@example.com (ganti dengan email Anda)
+- 📧 **Email**: arifsetwn@gmail.com
 
 ---
 
