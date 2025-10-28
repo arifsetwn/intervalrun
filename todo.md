@@ -65,38 +65,38 @@ Dokumen ini adalah breakdown tugas untuk membangun MVP aplikasi "IntervalRun" v1
 
 ## Fase 3: Logika JavaScript (Core Timer Engine)
 
-- [ ] Inisialisasi elemen DOM (querySelectorAll/getElementById).
-- [ ] Buat variabel *state* (status) global:
-    - [ ] `let currentWorkout = [];` (Array berisi objek latihan).
-    - [ ] `let currentIntervalIndex = 0;`
-    - [ ] `let timeLeftInInterval = 0;`
-    - [ ] `let timerId = null;` (Untuk menyimpan `setInterval`).
-    - [ ] `let isPaused = true;`
-- [ ] Buat data **Preset Latihan** (FR 3.1) dalam bentuk *array of objects*.
-- [ ] Buat fungsi `formatTime(seconds)` (mengubah detik ke "MM:SS").
-- [ ] Buat fungsi `updateTimerDisplay()` (memperbarui UI timer).
-- [ ] Buat fungsi `updateIntervalInfo()` (memperbarui UI nama interval & interval berikutnya).
-- [ ] Buat fungsi `loadAudio()` dan siapkan objek `Audio` (FR 4.1).
-- [ ] Buat fungsi `playBeep()` dan `playTransition()` (FR 4.2, 4.3).
-- [ ] **Buat fungsi inti `tick()`** (FR 3.2):
-    - [ ] `timeLeftInInterval--`.
-    - [ ] Panggil `updateTimerDisplay()`.
-    - [ ] Cek isyarat audio (jika `timeLeft <= 3`).
-    - [ ] Cek akhir interval (jika `timeLeft < 0`):
-        - [ ] Panggil `playTransition()`.
-        - [ ] `currentIntervalIndex++`.
-        - [ ] Cek akhir latihan (jika `index >= currentWorkout.length`).
-        - [ ] Jika belum, panggil `loadInterval(currentIntervalIndex)`.
-- [ ] Buat fungsi `loadInterval(index)`:
-    - [ ] Ambil data dari `currentWorkout[index]`.
-    - [ ] Atur `timeLeftInInterval`.
-    - [ ] Panggil `updateIntervalInfo()`.
-    - [ ] Terapkan kelas CSS warna yang sesuai (FR 4.4).
-- [ ] Buat fungsi kontrol (FR 3.3):
-    - [ ] `startTimer()` (mengatur `isPaused = false`, memulai `setInterval(tick, 1000)`).
-    - [ ] `pauseTimer()` (mengatur `isPaused = true`, `clearInterval(timerId)`).
-    - [ ] `resetTimer()` (panggil `pauseTimer()`, `loadInterval(0)`, `updateTimerDisplay()`).
-- [ ] Pasang *event listener* untuk tombol `#start-pause-btn` dan `#reset-btn`.
+- [x] Inisialisasi elemen DOM (querySelectorAll/getElementById).
+- [x] Buat variabel *state* (status) global:
+    - [x] `let currentWorkout = [];` (Array berisi objek latihan).
+    - [x] `let currentIntervalIndex = 0;`
+    - [x] `let timeLeftInInterval = 0;`
+    - [x] `let timerId = null;` (Untuk menyimpan `setInterval`).
+    - [x] `let isPaused = true;`
+- [x] Buat data **Preset Latihan** (FR 3.1) dalam bentuk *array of objects*.
+- [x] Buat fungsi `formatTime(seconds)` (mengubah detik ke "MM:SS").
+- [x] Buat fungsi `updateTimerDisplay()` (memperbarui UI timer).
+- [x] Buat fungsi `updateIntervalInfo()` (memperbarui UI nama interval & interval berikutnya).
+- [x] Buat fungsi `loadAudio()` dan siapkan objek `Audio` (FR 4.1).
+- [x] Buat fungsi `playBeep()` dan `playTransition()` (FR 4.2, 4.3).
+- [x] **Buat fungsi inti `tick()`** (FR 3.2):
+    - [x] `timeLeftInInterval--`.
+    - [x] Panggil `updateTimerDisplay()`.
+    - [x] Cek isyarat audio (jika `timeLeft <= 3`).
+    - [x] Cek akhir interval (jika `timeLeft < 0`):
+        - [x] Panggil `playTransition()`.
+        - [x] `currentIntervalIndex++`.
+        - [x] Cek akhir latihan (jika `index >= currentWorkout.length`).
+        - [x] Jika belum, panggil `loadInterval(currentIntervalIndex)`.
+- [x] Buat fungsi `loadInterval(index)`:
+    - [x] Ambil data dari `currentWorkout[index]`.
+    - [x] Atur `timeLeftInInterval`.
+    - [x] Panggil `updateIntervalInfo()`.
+    - [x] Terapkan kelas CSS warna yang sesuai (FR 4.4).
+- [x] Buat fungsi kontrol (FR 3.3):
+    - [x] `startTimer()` (mengatur `isPaused = false`, memulai `setInterval(tick, 1000)`).
+    - [x] `pauseTimer()` (mengatur `isPaused = true`, `clearInterval(timerId)`).
+    - [x] `resetTimer()` (panggil `pauseTimer()`, `loadInterval(0)`, `updateTimerDisplay()`).
+- [x] Pasang *event listener* untuk tombol `#start-pause-btn` dan `#reset-btn`.
 
 ## Fase 4: Logika JavaScript (Manajemen Tampilan & Builder)
 
