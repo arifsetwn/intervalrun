@@ -16,30 +16,30 @@ Dokumen ini adalah breakdown tugas untuk membangun MVP aplikasi "IntervalRun" v1
 
 ## Fase 1: Struktur HTML (Skeleton)
 
-- [ ] Siapkan *meta tag viewport* di `<head>` untuk desain *mobile-first* (NF-1).
-- [ ] Buat struktur HTML untuk **3 Tampilan Utama** (bisa berupa `div` yang di-show/hide oleh JS):
-    - [ ] **Tampilan 1: Pemilihan Latihan (`#selection-view`)**
-        - [ ] Judul ("Pilih Latihan").
-        - [ ] Daftar untuk *preset* (`#preset-list`) (FR 1.1).
-        - [ ] Tombol "Buat Latihan Baru" (`#show-builder-btn`) (FR 1.2).
-    - [ ] **Tampilan 2: Pembuat Latihan (`#builder-view`)**
-        - [ ] Judul ("Buat Latihan Kustom").
-        - [ ] Form (`#builder-form`) (FR 2.1).
-        - [ ] Input: Nama Interval (`#interval-name`) (FR 2.2).
-        - [ ] Input: Menit (`#interval-minutes`) (FR 2.2).
-        - [ ] Input: Detik (`#interval-seconds`) (FR 2.2).
-        - [ ] Tombol "Tambah Interval" (`#add-interval-btn`) (FR 2.3).
-        - [ ] Daftar/area untuk menampilkan interval yang ditambahkan (`#custom-workout-list`) (FR 2.4).
-        - [ ] Tombol "Mulai Latihan" (`#start-custom-btn`) (FR 2.6).
-        - [ ] Tombol "Kembali" (untuk kembali ke Tampilan 1).
-    - [ ] **Tampilan 3: Timer (`#timer-view`)**
-        - [ ] Area teks untuk Nama Interval Saat Ini (`#current-interval-name`) (FR 3.1).
-        - [ ] Area teks untuk Timer Hitung Mundur (`#current-timer`) (FR 3.1).
-        - [ ] Area teks untuk Interval Berikutnya (`#next-interval-info`) (FR 1.3).
-        - [ ] Area kontrol (`<div class="controls">`).
-        - [ ] Tombol Start/Pause (`#start-pause-btn`) (FR 1.4).
-        - [ ] Tombol Reset (`#reset-btn`) (FR 1.4).
-        - [ ] Tombol "Akhiri Latihan" (untuk kembali ke Tampilan 1).
+- [x] Siapkan *meta tag viewport* di `<head>` untuk desain *mobile-first* (NF-1).
+- [x] Buat struktur HTML untuk **3 Tampilan Utama** (bisa berupa `div` yang di-show/hide oleh JS):
+    - [x] **Tampilan 1: Pemilihan Latihan (`#selection-view`)**
+        - [x] Judul ("Pilih Latihan").
+        - [x] Daftar untuk *preset* (`#preset-list`) (FR 1.1).
+        - [x] Tombol "Buat Latihan Baru" (`#show-builder-btn`) (FR 1.2).
+    - [x] **Tampilan 2: Pembuat Latihan (`#builder-view`)**
+        - [x] Judul ("Buat Latihan Kustom").
+        - [x] Form (`#builder-form`) (FR 2.1).
+        - [x] Input: Nama Interval (`#interval-name`) (FR 2.2).
+        - [x] Input: Menit (`#interval-minutes`) (FR 2.2).
+        - [x] Input: Detik (`#interval-seconds`) (FR 2.2).
+        - [x] Tombol "Tambah Interval" (`#add-interval-btn`) (FR 2.3).
+        - [x] Daftar/area untuk menampilkan interval yang ditambahkan (`#custom-workout-list`) (FR 2.4).
+        - [x] Tombol "Mulai Latihan" (`#start-custom-btn`) (FR 2.6).
+        - [x] Tombol "Kembali" (untuk kembali ke Tampilan 1).
+    - [x] **Tampilan 3: Timer (`#timer-view`)**
+        - [x] Area teks untuk Nama Interval Saat Ini (`#current-interval-name`) (FR 3.1).
+        - [x] Area teks untuk Timer Hitung Mundur (`#current-timer`) (FR 3.1).
+        - [x] Area teks untuk Interval Berikutnya (`#next-interval-info`) (FR 1.3).
+        - [x] Area kontrol (`<div class="controls">`).
+        - [x] Tombol Start/Pause (`#start-pause-btn`) (FR 1.4).
+        - [x] Tombol Reset (`#reset-btn`) (FR 1.4).
+        - [x] Tombol "Akhiri Latihan" (untuk kembali ke Tampilan 1).
 
 ## Fase 2: Styling CSS (Mobile-First)
 
