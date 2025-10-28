@@ -150,26 +150,7 @@ Edit file `style.css` atau `style-new.css`:
 }
 ```
 
-### Mengganti Audio Files
-
-1. Siapkan file audio `.wav` atau `.mp3`
-2. Ganti nama file menjadi:
-   - `beep-countdown.wav` (untuk countdown 3-2-1)
-   - `beep-transition.wav` (untuk pergantian interval)
-3. Letakkan di folder `assets/`
-
-## 🤝 Kontribusi
-
 Kontribusi sangat diterima! Ikuti langkah berikut:
-
-### Fork & Clone
-
-```bash
-# Fork repository ini di GitHub
-# Clone fork Anda
-git clone https://github.com/YOUR_USERNAME/intervalrun.git
-cd intervalrun
-```
 
 ### Buat Branch Baru
 
@@ -320,10 +301,6 @@ Setelah deploy ke platform manapun:
 ## 📄 Lisensi
 
 MIT License - Silakan gunakan untuk project personal atau komersial.
-
-## 👨‍💻 Author
-
-**Arif Setiawan** - [@arifsetwn](https://github.com/arifsetwn)
 
 ## 🙏 Acknowledgments
 
