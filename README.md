@@ -4,6 +4,8 @@
 
 IntervalRun adalah aplikasi web sederhana untuk membantu Anda menjalankan latihan interval training di treadmill. Dengan tampilan yang besar dan jelas, aplikasi ini dirancang khusus untuk digunakan saat berlari di treadmill.
 
+Demo : (https://arifsetwn.github.io/intervalrun/)
+
 ![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 
@@ -214,89 +216,6 @@ Beberapa fitur yang bisa ditambahkan:
 - [ ] Voice commands
 - [ ] Suara TTS untuk nama interval
 
-## 🌐 Deployment
-
-### GitHub Pages
-
-1. **Push ke GitHub**
-   ```bash
-   git add .
-   git commit -m "Initial commit"
-   git push origin master
-   ```
-
-2. **Enable GitHub Pages**
-   - Buka repository di GitHub
-   - Go to **Settings** → **Pages**
-   - Source: Deploy from branch `master`
-   - Folder: `/ (root)`
-   - Save
-
-3. **Akses Aplikasi**
-   - URL: `https://[username].github.io/intervalrun/`
-   - Tunggu ~1 menit untuk deployment pertama
-
-### Netlify (Drag & Drop)
-
-1. **Buka [Netlify](https://www.netlify.com/)**
-2. **Sign up/Login** dengan GitHub
-3. **Drag & Drop** folder `intervalrun` ke Netlify
-4. **Deploy!** - Otomatis dapat URL `https://random-name-123.netlify.app`
-5. **Custom domain** (opsional): Settings → Domain management
-
-### Vercel
-
-1. **Install Vercel CLI**
-   ```bash
-   npm install -g vercel
-   ```
-
-2. **Deploy**
-   ```bash
-   cd intervalrun
-   vercel
-   ```
-
-3. **Follow prompts**
-   - Setup project? `Yes`
-   - Which scope? `Your account`
-   - Link to existing? `No`
-   - Project name? `intervalrun`
-   - Directory? `./`
-
-4. **Akses URL** yang diberikan: `https://intervalrun.vercel.app`
-
-### Netlify CLI
-
-```bash
-# Install Netlify CLI
-npm install -g netlify-cli
-
-# Deploy
-cd intervalrun
-netlify deploy
-
-# Pilih opsi:
-# ? Create & configure a new site
-# ? Team: Your team
-# ? Site name: intervalrun
-# ? Deploy path: .
-
-# Production deploy
-netlify deploy --prod
-```
-
-### Custom Domain
-
-Setelah deploy ke platform manapun:
-
-1. **Beli domain** (Namecheap, GoDaddy, CloudFlare, dll)
-2. **Set DNS Records**:
-   - GitHub Pages: CNAME → `username.github.io`
-   - Netlify: CNAME → `your-site.netlify.app`
-   - Vercel: CNAME → `your-site.vercel.app`
-3. **Update settings** di platform hosting
-4. **Tunggu DNS propagation** (~24 jam)
 
 ## 📄 Lisensi
 
