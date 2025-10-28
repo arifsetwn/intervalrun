@@ -43,25 +43,25 @@ Dokumen ini adalah breakdown tugas untuk membangun MVP aplikasi "IntervalRun" v1
 
 ## Fase 2: Styling CSS (Mobile-First)
 
-- [ ] Implementasikan *reset* CSS dasar.
-- [ ] Terapkan `box-sizing: border-box;`.
-- [ ] Atur *font* dasar (pilih font yang tebal dan jelas, misal: Roboto, Montserrat).
-- [ ] **Style Tampilan Timer (`#timer-view`)**:
-    - [ ] Prioritaskan ini. Buat agar *full-screen* di *mobile*.
-    - [ ] Buat font `#current-timer` **SANGAT BESAR** (FR 1.1, NF-4).
-    - [ ] Buat font `#current-interval-name` besar dan jelas.
-    - [ ] Buat tombol kontrol besar dan mudah diketuk (NF-4).
-    - [ ] Siapkan *utility classes* untuk warna latar (FR 4.4):
-        - [ ] `.bg-run` (misal: merah/oranye).
-        - [ ] `.bg-recover` (misal: hijau/biru).
-        - [ ] `.bg-warmup` (misal: kuning).
-- [ ] **Style Tampilan Pemilihan (`#selection-view`)**:
-    - [ ] Buat daftar *preset* terlihat seperti tombol yang jelas.
-- [ ] **Style Tampilan Pembuat (`#builder-view`)**:
-    - [ ] Buat form mudah digunakan di *mobile*.
-    - [ ] Style daftar interval kustom (`#custom-workout-list`) agar rapi.
-    - [ ] Pastikan tombol "Hapus" di daftar mudah diketuk.
-- [ ] Tambahkan media queries dasar untuk memastikan tampilan tidak "pecah" di tablet/desktop (meskipun bukan prioritas).
+- [x] Implementasikan *reset* CSS dasar.
+- [x] Terapkan `box-sizing: border-box;`.
+- [x] Atur *font* dasar (pilih font yang tebal dan jelas, misal: Roboto, Montserrat).
+- [x] **Style Tampilan Timer (`#timer-view`)**:
+    - [x] Prioritaskan ini. Buat agar *full-screen* di *mobile*.
+    - [x] Buat font `#current-timer` **SANGAT BESAR** (FR 1.1, NF-4).
+    - [x] Buat font `#current-interval-name` besar dan jelas.
+    - [x] Buat tombol kontrol besar dan mudah diketuk (NF-4).
+    - [x] Siapkan *utility classes* untuk warna latar (FR 4.4):
+        - [x] `.bg-run` (misal: merah/oranye).
+        - [x] `.bg-recover` (misal: hijau/biru).
+        - [x] `.bg-warmup` (misal: kuning).
+- [x] **Style Tampilan Pemilihan (`#selection-view`)**:
+    - [x] Buat daftar *preset* terlihat seperti tombol yang jelas.
+- [x] **Style Tampilan Pembuat (`#builder-view`)**:
+    - [x] Buat form mudah digunakan di *mobile*.
+    - [x] Style daftar interval kustom (`#custom-workout-list`) agar rapi.
+    - [x] Pastikan tombol "Hapus" di daftar mudah diketuk.
+- [x] Tambahkan media queries dasar untuk memastikan tampilan tidak "pecah" di tablet/desktop (meskipun bukan prioritas).
 
 ## Fase 3: Logika JavaScript (Core Timer Engine)
 
