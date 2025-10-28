@@ -100,31 +100,31 @@ Dokumen ini adalah breakdown tugas untuk membangun MVP aplikasi "IntervalRun" v1
 
 ## Fase 4: Logika JavaScript (Manajemen Tampilan & Builder)
 
-- [ ] Buat fungsi `showView(viewId)` (menyembunyikan semua tampilan, lalu menampilkan yang dipilih).
-- [ ] **Logika Tampilan Pemilihan (FR 1)**:
-    - [ ] Tampilkan `#selection-view` saat *load*.
-    - [ ] Buat fungsi `populatePresetList()` untuk mengisi `#preset-list` dari data *preset*.
-    - [ ] Tambahkan *event listener* ke daftar *preset*. Saat diklik:
-        - [ ] Set `currentWorkout` ke *preset* yang dipilih.
-        - [ ] Panggil `loadInterval(0)`.
-        - [ ] Panggil `showView('#timer-view')`.
-    - [ ] Tambahkan *event listener* ke `#show-builder-btn` -> `showView('#builder-view')`.
-- [ ] **Logika Tampilan Pembuat (FR 2)**:
-    - [ ] Buat `let customWorkout = [];`.
-    - [ ] Buat fungsi `updateCustomWorkoutList()` untuk me-render `customWorkout` ke `#custom-workout-list` (FR 2.4).
-        - [ ] Setiap item harus punya tombol "Hapus" (FR 2.5).
-    - [ ] Tambahkan *event listener* ke `#builder-form` (`event.preventDefault()`).
-    - [ ] Saat form disubmit (atau `#add-interval-btn` diklik):
-        - [ ] Baca nilai dari input (FR 2.2).
-        - [ ] Validasi (pastikan durasi > 0).
-        - [ ] Tambahkan objek interval baru ke `customWorkout` (FR 3.3).
-        - [ ] Panggil `updateCustomWorkoutList()`.
-        - [ ] Kosongkan input form.
-    - [ ] Tambahkan *event listener* ke `#custom-workout-list` untuk *event delegation* tombol "Hapus" (FR 3.5).
-    - [ ] Tambahkan *event listener* ke `#start-custom-btn` (FR 2.6):
-        - [ ] Set `currentWorkout = [...customWorkout]`.
-        - [ ] Panggil `loadInterval(0)`.
-        - [ ] Panggil `showView('#timer-view')`.
+- [x] Buat fungsi `showView(viewId)` (menyembunyikan semua tampilan, lalu menampilkan yang dipilih).
+- [x] **Logika Tampilan Pemilihan (FR 1)**:
+    - [x] Tampilkan `#selection-view` saat *load*.
+    - [x] Buat fungsi `populatePresetList()` untuk mengisi `#preset-list` dari data *preset*.
+    - [x] Tambahkan *event listener* ke daftar *preset*. Saat diklik:
+        - [x] Set `currentWorkout` ke *preset* yang dipilih.
+        - [x] Panggil `loadInterval(0)`.
+        - [x] Panggil `showView('#timer-view')`.
+    - [x] Tambahkan *event listener* ke `#show-builder-btn` -> `showView('#builder-view')`.
+- [x] **Logika Tampilan Pembuat (FR 2)**:
+    - [x] Buat `let customWorkout = [];`.
+    - [x] Buat fungsi `updateCustomWorkoutList()` untuk me-render `customWorkout` ke `#custom-workout-list` (FR 2.4).
+        - [x] Setiap item harus punya tombol "Hapus" (FR 2.5).
+    - [x] Tambahkan *event listener* ke `#builder-form` (`event.preventDefault()`).
+    - [x] Saat form disubmit (atau `#add-interval-btn` diklik):
+        - [x] Baca nilai dari input (FR 2.2).
+        - [x] Validasi (pastikan durasi > 0).
+        - [x] Tambahkan objek interval baru ke `customWorkout` (FR 3.3).
+        - [x] Panggil `updateCustomWorkoutList()`.
+        - [x] Kosongkan input form.
+    - [x] Tambahkan *event listener* ke `#custom-workout-list` untuk *event delegation* tombol "Hapus" (FR 3.5).
+    - [x] Tambahkan *event listener* ke `#start-custom-btn` (FR 2.6):
+        - [x] Set `currentWorkout = [...customWorkout]`.
+        - [x] Panggil `loadInterval(0)`.
+        - [x] Panggil `showView('#timer-view')`.
 
 ## Fase 5: Pengujian & Perbaikan
 

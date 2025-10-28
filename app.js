@@ -14,6 +14,21 @@ let startPauseBtn;
 let resetBtn;
 let endWorkoutBtn;
 
+// Selection View Elements
+let selectionView;
+let presetListEl;
+let showBuilderBtn;
+
+// Builder View Elements
+let builderView;
+let builderForm;
+let intervalNameInput;
+let intervalMinutesInput;
+let intervalSecondsInput;
+let customWorkoutListEl;
+let startCustomBtn;
+let backToSelectionBtn;
+
 // ========================================
 // 2. STATE GLOBAL APLIKASI
 // ========================================
@@ -23,6 +38,9 @@ let currentIntervalIndex = 0;
 let timeLeftInInterval = 0;
 let timerId = null;
 let isPaused = true;
+
+// Custom Workout State
+let customWorkout = [];
 
 // ========================================
 // 3. DATA PRESET LATIHAN
@@ -387,7 +405,277 @@ function workoutComplete() {
 }
 
 // ========================================
-// 9. EVENT LISTENERS
+// 9. VIEW MANAGEMENT
+// ========================================
+
+function showView(viewId) {
+    // Sembunyikan semua view
+    const allViews = [selectionView, builderView, timerView];
+    allViews.forEach(view => {
+        if (view) {
+            view.style.display = 'none';
+        }
+    });
+    
+    // Tampilkan view yang dipilih
+    const targetView = document.getElementById(viewId);
+    if (targetView) {
+        targetView.style.display = 'flex';
+        console.log('Showing view:', viewId);
+    }
+}
+
+// ========================================
+// 10. SELECTION VIEW - PRESET LOGIC
+// ========================================
+
+function populatePresetList() {
+    if (!presetListEl) return;
+    
+    // Bersihkan list dulu
+    presetListEl.innerHTML = '';
+    
+    // Tambahkan setiap preset sebagai card
+    presetWorkouts.forEach(preset => {
+        const presetCard = document.createElement('div');
+        presetCard.className = 'preset-item';
+        presetCard.dataset.presetId = preset.id;
+        
+        presetCard.innerHTML = `
+            <div class="preset-title">${preset.name}</div>
+            <div class="preset-description">${preset.description}</div>
+        `;
+        
+        // Event listener untuk klik preset
+        presetCard.addEventListener('click', function() {
+            selectPresetWorkout(preset);
+        });
+        
+        presetListEl.appendChild(presetCard);
+    });
+    
+    console.log('Preset list populated with', presetWorkouts.length, 'items');
+}
+
+function selectPresetWorkout(preset) {
+    console.log('Selected preset:', preset.name);
+    
+    // Set current workout ke preset yang dipilih
+    currentWorkout = [...preset.intervals];
+    currentIntervalIndex = 0;
+    
+    // Load interval pertama
+    loadInterval(0);
+    
+    // Reset button state
+    if (startPauseBtn) {
+        startPauseBtn.textContent = '▶️ Mulai';
+        startPauseBtn.disabled = false;
+        startPauseBtn.classList.remove('btn-pause');
+        startPauseBtn.classList.add('btn-start');
+    }
+    
+    // Pindah ke timer view
+    showView('timer-view');
+}
+
+function setupSelectionView() {
+    // Populate preset list
+    populatePresetList();
+    
+    // Event listener untuk tombol "Buat Latihan Baru"
+    if (showBuilderBtn) {
+        showBuilderBtn.addEventListener('click', function() {
+            showView('builder-view');
+        });
+    }
+    
+    // Event listener untuk tombol "Akhiri Latihan" di timer view
+    if (endWorkoutBtn) {
+        endWorkoutBtn.addEventListener('click', function() {
+            pauseTimer();
+            resetTimer();
+            showView('selection-view');
+        });
+    }
+}
+
+// ========================================
+// 11. BUILDER VIEW - CUSTOM WORKOUT LOGIC
+// ========================================
+
+function updateCustomWorkoutList() {
+    if (!customWorkoutListEl) return;
+    
+    // Bersihkan list
+    customWorkoutListEl.innerHTML = '';
+    
+    // Jika kosong, tampilkan pesan
+    if (customWorkout.length === 0) {
+        customWorkoutListEl.innerHTML = '<p style="text-align: center; color: #7f8c8d; padding: 20px;">Belum ada interval. Tambahkan interval untuk memulai.</p>';
+        
+        // Disable tombol start
+        if (startCustomBtn) {
+            startCustomBtn.disabled = true;
+        }
+        return;
+    }
+    
+    // Enable tombol start jika ada interval
+    if (startCustomBtn) {
+        startCustomBtn.disabled = false;
+    }
+    
+    // Render setiap interval
+    customWorkout.forEach((interval, index) => {
+        const item = document.createElement('div');
+        item.className = 'workout-item';
+        item.dataset.index = index;
+        
+        item.innerHTML = `
+            <div class="workout-item-info">
+                <div class="workout-item-name">${interval.name}</div>
+                <div class="workout-item-duration">${formatTime(interval.duration)}</div>
+            </div>
+            <button class="btn-delete" data-index="${index}">🗑️ Hapus</button>
+        `;
+        
+        customWorkoutListEl.appendChild(item);
+    });
+    
+    console.log('Custom workout list updated:', customWorkout.length, 'intervals');
+}
+
+function addIntervalToCustomWorkout(name, minutes, seconds) {
+    // Validasi input
+    if (!name || name.trim() === '') {
+        alert('Nama interval tidak boleh kosong!');
+        return false;
+    }
+    
+    const totalSeconds = (parseInt(minutes) * 60) + parseInt(seconds);
+    
+    if (totalSeconds <= 0) {
+        alert('Durasi interval harus lebih dari 0 detik!');
+        return false;
+    }
+    
+    // Tentukan type berdasarkan nama (simple keyword matching)
+    let type = 'default';
+    const nameLower = name.toLowerCase();
+    
+    if (nameLower.includes('lari') || nameLower.includes('sprint') || nameLower.includes('cepat')) {
+        type = 'run';
+    } else if (nameLower.includes('jalan') || nameLower.includes('pulih') || nameLower.includes('istirahat') || nameLower.includes('recover')) {
+        type = 'recover';
+    } else if (nameLower.includes('panas') || nameLower.includes('warmup')) {
+        type = 'warmup';
+    }
+    
+    // Tambahkan ke customWorkout
+    const newInterval = {
+        name: name,
+        duration: totalSeconds,
+        type: type
+    };
+    
+    customWorkout.push(newInterval);
+    
+    console.log('Added interval:', newInterval);
+    return true;
+}
+
+function deleteIntervalFromCustomWorkout(index) {
+    if (index >= 0 && index < customWorkout.length) {
+        const deleted = customWorkout.splice(index, 1);
+        console.log('Deleted interval:', deleted[0]);
+        updateCustomWorkoutList();
+    }
+}
+
+function setupBuilderView() {
+    // Event listener untuk form submission
+    if (builderForm) {
+        builderForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Baca nilai dari input
+            const name = intervalNameInput.value;
+            const minutes = intervalMinutesInput.value || 0;
+            const seconds = intervalSecondsInput.value || 0;
+            
+            // Tambah interval
+            if (addIntervalToCustomWorkout(name, minutes, seconds)) {
+                // Update list
+                updateCustomWorkoutList();
+                
+                // Reset form
+                builderForm.reset();
+                intervalMinutesInput.value = 0;
+                intervalSecondsInput.value = 30;
+                intervalNameInput.focus();
+            }
+        });
+    }
+    
+    // Event delegation untuk tombol hapus
+    if (customWorkoutListEl) {
+        customWorkoutListEl.addEventListener('click', function(e) {
+            // Cek apakah yang diklik adalah tombol delete
+            if (e.target.classList.contains('btn-delete') || e.target.closest('.btn-delete')) {
+                const btn = e.target.classList.contains('btn-delete') ? e.target : e.target.closest('.btn-delete');
+                const index = parseInt(btn.dataset.index);
+                
+                if (confirm('Hapus interval ini?')) {
+                    deleteIntervalFromCustomWorkout(index);
+                }
+            }
+        });
+    }
+    
+    // Event listener untuk tombol "Mulai Latihan"
+    if (startCustomBtn) {
+        startCustomBtn.addEventListener('click', function() {
+            if (customWorkout.length === 0) {
+                alert('Tambahkan minimal 1 interval untuk memulai!');
+                return;
+            }
+            
+            // Set current workout dari custom workout
+            currentWorkout = [...customWorkout];
+            currentIntervalIndex = 0;
+            
+            // Load interval pertama
+            loadInterval(0);
+            
+            // Reset button state
+            if (startPauseBtn) {
+                startPauseBtn.textContent = '▶️ Mulai';
+                startPauseBtn.disabled = false;
+                startPauseBtn.classList.remove('btn-pause');
+                startPauseBtn.classList.add('btn-start');
+            }
+            
+            // Pindah ke timer view
+            showView('timer-view');
+            
+            console.log('Starting custom workout with', currentWorkout.length, 'intervals');
+        });
+    }
+    
+    // Event listener untuk tombol "Kembali"
+    if (backToSelectionBtn) {
+        backToSelectionBtn.addEventListener('click', function() {
+            showView('selection-view');
+        });
+    }
+    
+    // Initial render
+    updateCustomWorkoutList();
+}
+
+// ========================================
+// 12. EVENT LISTENERS (Timer Controls)
 // ========================================
 
 function setupEventListeners() {
@@ -413,13 +701,13 @@ function setupEventListeners() {
 }
 
 // ========================================
-// 10. INISIALISASI APLIKASI
+// 13. INISIALISASI APLIKASI
 // ========================================
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('IntervalRun v1.0 - DOM Ready');
     
-    // Inisialisasi DOM elements
+    // Inisialisasi DOM elements - Timer View
     timerView = document.getElementById('timer-view');
     currentIntervalNameEl = document.getElementById('current-interval-name');
     currentTimerEl = document.getElementById('current-timer');
@@ -428,12 +716,38 @@ document.addEventListener('DOMContentLoaded', function() {
     resetBtn = document.getElementById('reset-btn');
     endWorkoutBtn = document.getElementById('end-workout-btn');
     
+    // Inisialisasi DOM elements - Selection View
+    selectionView = document.getElementById('selection-view');
+    presetListEl = document.getElementById('preset-list');
+    showBuilderBtn = document.getElementById('show-builder-btn');
+    
+    // Inisialisasi DOM elements - Builder View
+    builderView = document.getElementById('builder-view');
+    builderForm = document.getElementById('builder-form');
+    intervalNameInput = document.getElementById('interval-name');
+    intervalMinutesInput = document.getElementById('interval-minutes');
+    intervalSecondsInput = document.getElementById('interval-seconds');
+    customWorkoutListEl = document.getElementById('custom-workout-list');
+    startCustomBtn = document.getElementById('start-custom-btn');
+    backToSelectionBtn = document.getElementById('back-to-selection-btn');
+    
     // Load audio files
     loadAudio();
     
-    // Setup event listeners
+    // Setup event listeners (timer controls)
     setupEventListeners();
     
-    console.log('Core Timer Engine initialized');
-    console.log('Preset workouts available:', presetWorkouts.length);
+    // Setup selection view
+    setupSelectionView();
+    
+    // Setup builder view
+    setupBuilderView();
+    
+    // Tampilkan selection view sebagai default
+    showView('selection-view');
+    
+    console.log('✅ Core Timer Engine initialized');
+    console.log('✅ View Management initialized');
+    console.log('✅ Preset workouts available:', presetWorkouts.length);
+    console.log('🚀 IntervalRun ready to use!');
 });
