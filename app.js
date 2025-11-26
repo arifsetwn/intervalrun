@@ -14,6 +14,11 @@ let startPauseBtn;
 let resetBtn;
 let endWorkoutBtn;
 
+// Progress Bar Elements
+let progressBar;
+let progressTimeEl;
+let progressIntervalEl;
+
 // Selection View Elements
 let selectionView;
 let presetListEl;
@@ -39,6 +44,13 @@ let timeLeftInInterval = 0;
 let timerId = null;
 let isPaused = true;
 
+// Progress tracking
+let totalWorkoutDuration = 0;
+let elapsedTime = 0;
+
+// Wake Lock untuk mencegah layar mati
+let wakeLock = null;
+
 // Custom Workout State
 let customWorkout = [];
 
@@ -50,11 +62,17 @@ const presetWorkouts = [
     {
         id: 'hiit-beginner',
         name: 'HIIT Pemula',
-        description: '5 menit pemanasan, 5 interval lari-jalan',
+        description: '5 menit pemanasan, 8 interval lari-jalan',
         intervals: [
             { name: 'Pemanasan', duration: 300, type: 'warmup' }, // 5 menit
             { name: 'Lari Cepat', duration: 60, type: 'run' },    // 1 menit
             { name: 'Jalan Kaki', duration: 120, type: 'recover' }, // 2 menit
+            { name: 'Lari Cepat', duration: 60, type: 'run' },
+            { name: 'Jalan Kaki', duration: 120, type: 'recover' },
+            { name: 'Lari Cepat', duration: 60, type: 'run' },
+            { name: 'Jalan Kaki', duration: 120, type: 'recover' },
+            { name: 'Lari Cepat', duration: 60, type: 'run' },
+            { name: 'Jalan Kaki', duration: 120, type: 'recover' },
             { name: 'Lari Cepat', duration: 60, type: 'run' },
             { name: 'Jalan Kaki', duration: 120, type: 'recover' },
             { name: 'Lari Cepat', duration: 60, type: 'run' },
@@ -93,17 +111,21 @@ const presetWorkouts = [
         name: 'Piramida',
         description: 'Interval meningkat kemudian menurun',
         intervals: [
-            { name: 'Pemanasan', duration: 180, type: 'warmup' },
+            { name: 'Pemanasan', duration: 300, type: 'warmup' }, // 5 menit
             { name: 'Lari 1 Menit', duration: 60, type: 'run' },
             { name: 'Pemulihan', duration: 60, type: 'recover' },
             { name: 'Lari 2 Menit', duration: 120, type: 'run' },
+            { name: 'Pemulihan', duration: 60, type: 'recover' },
+            { name: 'Lari 3 Menit', duration: 180, type: 'run' },
+            { name: 'Pemulihan', duration: 90, type: 'recover' },
+            { name: 'Lari 4 Menit', duration: 240, type: 'run' }, // Puncak piramida
             { name: 'Pemulihan', duration: 90, type: 'recover' },
             { name: 'Lari 3 Menit', duration: 180, type: 'run' },
-            { name: 'Pemulihan', duration: 120, type: 'recover' },
+            { name: 'Pemulihan', duration: 60, type: 'recover' },
             { name: 'Lari 2 Menit', duration: 120, type: 'run' },
-            { name: 'Pemulihan', duration: 90, type: 'recover' },
+            { name: 'Pemulihan', duration: 60, type: 'recover' },
             { name: 'Lari 1 Menit', duration: 60, type: 'run' },
-            { name: 'Pendinginan', duration: 180, type: 'recover' }
+            { name: 'Pendinginan', duration: 180, type: 'recover' } // 3 menit
         ]
     }
 ];
@@ -186,10 +208,65 @@ function formatTime(seconds) {
     return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
 }
 
+// Fungsi untuk menghitung total durasi workout
+function calculateTotalDuration(intervals) {
+    return intervals.reduce((total, interval) => total + interval.duration, 0);
+}
+
+// Fungsi untuk format durasi dalam menit
+function formatDurationMinutes(totalSeconds) {
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    if (seconds === 0) {
+        return `${minutes} menit`;
+    }
+    return `${minutes} menit ${seconds} detik`;
+}
+
 function updateTimerDisplay() {
     if (currentTimerEl) {
         currentTimerEl.textContent = formatTime(timeLeftInInterval);
     }
+}
+
+// Fungsi untuk menghitung elapsed time berdasarkan posisi saat ini
+function calculateElapsedTime() {
+    let elapsed = 0;
+    
+    // Tambahkan durasi semua interval sebelum interval saat ini
+    for (let i = 0; i < currentIntervalIndex; i++) {
+        elapsed += currentWorkout[i].duration;
+    }
+    
+    // Tambahkan waktu yang sudah berlalu di interval saat ini
+    if (currentWorkout[currentIntervalIndex]) {
+        const currentIntervalDuration = currentWorkout[currentIntervalIndex].duration;
+        elapsed += (currentIntervalDuration - timeLeftInInterval);
+    }
+    
+    return elapsed;
+}
+
+// Fungsi untuk update progress bar
+function updateProgressBar() {
+    if (!progressBar || !progressTimeEl || !progressIntervalEl) return;
+    
+    // Hitung elapsed time
+    elapsedTime = calculateElapsedTime();
+    
+    // Hitung persentase progress
+    const progressPercent = totalWorkoutDuration > 0 
+        ? (elapsedTime / totalWorkoutDuration) * 100 
+        : 0;
+    
+    // Update progress bar width
+    progressBar.style.width = `${Math.min(progressPercent, 100)}%`;
+    
+    // Update progress time text
+    progressTimeEl.textContent = `${formatTime(Math.floor(elapsedTime))} / ${formatTime(totalWorkoutDuration)}`;
+    
+    // Update interval indicator
+    progressIntervalEl.textContent = `Interval ${currentIntervalIndex + 1}/${currentWorkout.length}`;
 }
 
 function updateIntervalInfo() {
@@ -242,6 +319,7 @@ function tick() {
     
     // Update display
     updateTimerDisplay();
+    updateProgressBar();
     
     // Cek untuk beep countdown (3, 2, 1)
     if (timeLeftInInterval <= 3 && timeLeftInInterval > 0) {
@@ -296,6 +374,7 @@ function loadInterval(index) {
     // Update UI
     updateIntervalInfo();
     updateTimerDisplay();
+    updateProgressBar();
     
     // Apply warna background
     applyIntervalColor(interval);
@@ -305,6 +384,38 @@ function loadInterval(index) {
 // 8. FUNGSI KONTROL TIMER
 // ========================================
 
+// Fungsi untuk meminta Wake Lock (mencegah layar mati)
+async function requestWakeLock() {
+    try {
+        if ('wakeLock' in navigator) {
+            wakeLock = await navigator.wakeLock.request('screen');
+            console.log('Wake Lock aktif - layar akan tetap menyala');
+            
+            // Event listener jika wake lock dilepas oleh sistem
+            wakeLock.addEventListener('release', () => {
+                console.log('Wake Lock dilepas');
+            });
+        } else {
+            console.log('Wake Lock API tidak didukung browser ini');
+        }
+    } catch (err) {
+        console.log('Gagal mengaktifkan Wake Lock:', err.message);
+    }
+}
+
+// Fungsi untuk melepaskan Wake Lock
+async function releaseWakeLock() {
+    if (wakeLock !== null) {
+        try {
+            await wakeLock.release();
+            wakeLock = null;
+            console.log('Wake Lock dinonaktifkan');
+        } catch (err) {
+            console.log('Gagal melepas Wake Lock:', err.message);
+        }
+    }
+}
+
 function startTimer() {
     if (currentWorkout.length === 0) {
         alert('Tidak ada latihan yang dipilih!');
@@ -312,6 +423,9 @@ function startTimer() {
     }
     
     isPaused = false;
+    
+    // Aktifkan Wake Lock agar layar tetap menyala
+    requestWakeLock();
     
     // Mulai interval timer
     timerId = setInterval(tick, 1000);
@@ -333,6 +447,9 @@ function pauseTimer() {
         timerId = null;
     }
     
+    // Lepaskan Wake Lock saat pause
+    releaseWakeLock();
+    
     // Update tombol UI
     if (startPauseBtn) {
         startPauseBtn.textContent = '▶️ Lanjutkan';
@@ -348,11 +465,15 @@ function resetTimer() {
     // Reset ke interval pertama
     currentIntervalIndex = 0;
     lastBeepSecond = -1;
+    elapsedTime = 0;
     
     // Load interval pertama
     if (currentWorkout.length > 0) {
         loadInterval(0);
     }
+    
+    // Update progress bar
+    updateProgressBar();
     
     // Update tombol UI
     if (startPauseBtn) {
@@ -365,6 +486,9 @@ function resetTimer() {
 function workoutComplete() {
     // Stop timer
     pauseTimer();
+    
+    // Lepaskan Wake Lock saat selesai
+    releaseWakeLock();
     
     // Update UI untuk menampilkan pesan selesai
     if (currentIntervalNameEl) {
@@ -428,9 +552,14 @@ function populatePresetList() {
         presetCard.className = 'preset-item';
         presetCard.dataset.presetId = preset.id;
         
+        // Hitung total durasi
+        const totalDuration = calculateTotalDuration(preset.intervals);
+        const durationText = formatDurationMinutes(totalDuration);
+        
         presetCard.innerHTML = `
             <div class="preset-title">${preset.name}</div>
             <div class="preset-description">${preset.description}</div>
+            <div class="preset-duration">⏱️ Total: ${durationText}</div>
         `;
         
         // Event listener untuk klik preset
@@ -446,6 +575,10 @@ function selectPresetWorkout(preset) {
     // Set current workout ke preset yang dipilih
     currentWorkout = [...preset.intervals];
     currentIntervalIndex = 0;
+    
+    // Hitung total durasi workout
+    totalWorkoutDuration = calculateTotalDuration(currentWorkout);
+    elapsedTime = 0;
     
     // Load interval pertama
     loadInterval(0);
@@ -605,6 +738,10 @@ function setupBuilderView() {
             currentWorkout = [...customWorkout];
             currentIntervalIndex = 0;
             
+            // Hitung total durasi workout
+            totalWorkoutDuration = calculateTotalDuration(currentWorkout);
+            elapsedTime = 0;
+            
             // Load interval pertama
             loadInterval(0);
             
@@ -675,6 +812,11 @@ document.addEventListener('DOMContentLoaded', function() {
     startPauseBtn = document.getElementById('start-pause-btn');
     resetBtn = document.getElementById('reset-btn');
     endWorkoutBtn = document.getElementById('end-workout-btn');
+    
+    // Inisialisasi DOM elements - Progress Bar
+    progressBar = document.getElementById('progress-bar');
+    progressTimeEl = document.getElementById('progress-time');
+    progressIntervalEl = document.getElementById('progress-interval');
     
     // Inisialisasi DOM elements - Selection View
     selectionView = document.getElementById('selection-view');

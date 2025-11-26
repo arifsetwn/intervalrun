@@ -133,35 +133,47 @@
 
         <!-- Tampilan 3: Timer (Layar Eksekusi) -->
         <div id="timer-view" class="view" style="display: none;">
-            <!-- Nama Interval Saat Ini -->
-            <div id="current-interval-name" class="interval-name">
-                SIAP MEMULAI
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+            <div class="progress-info">
+                <span id="progress-time">00:00 / 00:00</span>
+                <span id="progress-interval">Interval 1/1</span>
             </div>
             
-            <!-- Timer Hitung Mundur -->
-            <div id="current-timer" class="timer-display">
-                00:00
-            </div>
-            
-            <!-- Info Interval Berikutnya -->
-            <div id="next-interval-info" class="next-interval">
-                Berikutnya: -
-            </div>
-            
-            <!-- Kontrol Timer -->
-            <div class="controls">
-                <button id="start-pause-btn" class="btn btn-control btn-start">
-                    ▶️ Mulai
+            <!-- Timer Content Wrapper -->
+            <div class="timer-content">
+                <!-- Nama Interval Saat Ini -->
+                <div id="current-interval-name" class="interval-name">
+                    SIAP MEMULAI
+                </div>
+                
+                <!-- Timer Hitung Mundur -->
+                <div id="current-timer" class="timer-display">
+                    00:00
+                </div>
+                
+                <!-- Info Interval Berikutnya -->
+                <div id="next-interval-info" class="next-interval">
+                    Berikutnya: -
+                </div>
+                
+                <!-- Kontrol Timer -->
+                <div class="controls">
+                    <button id="start-pause-btn" class="btn btn-control btn-start">
+                        ▶️ Mulai
+                    </button>
+                    <button id="reset-btn" class="btn btn-control btn-reset">
+                        🔄 Reset
+                    </button>
+                </div>
+                
+                <!-- Tombol Akhiri Latihan -->
+                <button id="end-workout-btn" class="btn btn-secondary btn-end">
+                    ✕ Akhiri Latihan
                 </button>
-                <button id="reset-btn" class="btn btn-control btn-reset">
-                    🔄 Reset
-                </button>
             </div>
-            
-            <!-- Tombol Akhiri Latihan -->
-            <button id="end-workout-btn" class="btn btn-secondary btn-end">
-                ✕ Akhiri Latihan
-            </button>
         </div>
     </div>
     

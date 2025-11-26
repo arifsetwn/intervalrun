@@ -200,6 +200,15 @@ body {
     color: #7f8c8d;
 }
 
+.preset-duration {
+    font-size: 0.85rem;
+    color: #3498db;
+    font-weight: 600;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid #ecf0f1;
+}
+
 /* ========================================
    5. VIEW: PEMBUAT LATIHAN
    ======================================== */
@@ -315,11 +324,55 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     min-height: 100vh;
-    padding: 20px;
+    padding: 0;
     text-align: center;
     transition: background 0.5s ease;
+}
+
+/* Progress Bar Container */
+.progress-container {
+    width: 100%;
+    max-width: 100%;
+    height: 14px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 0;
+    overflow: hidden;
+    margin-bottom: 10px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #2ecc71, #27ae60);
+    border-radius: 0;
+    width: 0%;
+    transition: width 0.3s ease;
+    box-shadow: 0 0 10px rgba(46, 204, 113, 0.5);
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 100%;
+    font-size: 0.9rem;
+    opacity: 0.9;
+    margin-bottom: 20px;
+    font-weight: 600;
+    padding: 0 20px;
+}
+
+/* Timer Content Wrapper - untuk centering vertikal */
+.timer-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 20px;
 }
 
 /* Nama Interval - BESAR */
